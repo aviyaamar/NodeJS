@@ -14,3 +14,5 @@
 export const var3 = ()=>{
     console.log('hi');
 }
+
+module.exports = var3
