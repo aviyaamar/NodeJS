@@ -12,6 +12,8 @@ MongoClient.connect(connectionURL, {useNewUrlParser: true}, (error, client)=>{
     }
 
  const db =  client.db(databaseName)
+ db.collection('users').createIndex({email: 1},{ unique: true });
+
 db.collection('users').insertMany([
     {
         userId: id, 
