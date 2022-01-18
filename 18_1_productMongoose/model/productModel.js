@@ -1,11 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
 
-mongoose.connect('mongodb://127.0.0.1:27017/e-commerce', {
-    useNewUrlParser: true,
-})
-
-const product =  mongoose.model('product', {
+const product =  mongoose.Schema({
     name: {
         type: String, 
         required: true,
@@ -15,7 +11,7 @@ const product =  mongoose.model('product', {
         type: String,
         required: true, 
     },
-    isActiv: {
+    isActive: {
       type: Boolean, 
       required: false, 
     },
@@ -28,17 +24,15 @@ const product =  mongoose.model('product', {
             validate(value){
                 if(value.length <= 10){
                     throw new Error('description must have 10 charcter')
-                
+                }
             }
-           }
-        
         },
         price:{
             type: Number, 
             required:true, 
             default:0,
             validate(value){
-                if(value < 10){
+                if(value < 0){
                     throw new Error('price must be a positive number')
                 }
 
@@ -58,15 +52,16 @@ const product =  mongoose.model('product', {
 
             }
         }, 
-        phone: {
-            type: String,
-            required: true,
+        phone:{
+            type:Number, 
             validate(value){
-           if (!validator.isMobilePhone(value, "he-IL")){
-                  throw new Error('Must be isreli phone')
+              if(!validator.isMobilePhone(value,' he-IL'))
+              {
+                  throw new Error('number is must number israel ')
               }
-          }
-          },
+            }
+
+        }, 
         DateAdded:{
             type: Date,
             default:new Date()
@@ -74,28 +69,6 @@ const product =  mongoose.model('product', {
         
     }
 })
-const tshirt = new product({
-    name: "gummmmm",
-    category: "snakes",
-    isActive: true,
-    details: {
-      description: "gummm five menta",
-      price: 10,
-      discount: 19,
-      images: [
-        "facbook.com",
-        "google.com",
-      ],
-      // phone: "+972546109516",
-    },
-  });
-  
-  tshirt
-    .save()
-    .then(() => {
-      console.log("suceess adding tshirt", tshirt);
-    })
-    .catch((error) => {
-      console.log("Error", error);
-    });
-  
+
+const productModel = mongoose.model('products',product)
+module.exports = productModel
