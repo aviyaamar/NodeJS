@@ -53,12 +53,11 @@ const product =  mongoose.Schema({
             }
         }, 
         phone:{
-            type:Number, 
+            type:String, 
             validate(value){
-              if(!validator.isMobilePhone(value,' he-IL'))
-              {
+              if(!validator.isMobilePhone(value,"he-IL"))
                   throw new Error('number is must number israel ')
-              }
+              
             }
 
         }, 
